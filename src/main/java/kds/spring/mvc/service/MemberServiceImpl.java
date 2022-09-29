@@ -1,5 +1,8 @@
 package kds.spring.mvc.service;
 
-public class MemberServiceImpl implements MemberService{
+import org.springframework.stereotype.Service;
 
+@Service("msrv")
+public class MemberServiceImpl implements MemberService{
+	
 }
