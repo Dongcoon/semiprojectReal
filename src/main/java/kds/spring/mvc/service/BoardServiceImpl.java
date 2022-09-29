@@ -1,5 +1,24 @@
 package kds.spring.mvc.service;
 
-public class BoardServiceImpl implements BoardService{
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import kds.spring.mvc.dao.BoardDAO;
+import kds.spring.mvc.vo.BoardVO;
+
+@Service("bsrv")
+public class BoardServiceImpl implements BoardService{
+	
+	@Autowired
+	private BoardDAO bdao;
+
+	@Override
+	public boolean newBoard(BoardVO bvo) {
+		boolean isInsert = false;
+		
+		//회원가입이 성공시 true 리턴
+		if(bdao.insertBoard(bvo) > 0) isInsert = true;
+		
+		return isInsert;
+	}
 }
