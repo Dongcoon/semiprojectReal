@@ -8,17 +8,17 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public String list() {
-		return "list/list";
+		return "board/list";
 	}
 	
 	@GetMapping("/view")
 	public String view() {
-		return "view/view";
+		return "board/view";
 	}
 	
 	@GetMapping("/write")
 	public String join() {
-		return "write/write";
+		return "board/write";
 	}
 
 }
