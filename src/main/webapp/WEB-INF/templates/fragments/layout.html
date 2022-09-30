@@ -10,7 +10,7 @@ xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
 <body>
 <div id="container">
 	<th:block th:replace="fragments/header :: header"/>
-	<th:block layout:fragment="main"/>
+	<th:block layout:fragment="main"></th:block>
 	
 		<div id="main"></div>
 	<th:block th:replace="fragments/footer :: footer"/>
@@ -18,4 +18,5 @@ xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
 	<script th:href="@{/static/js/base.js}" ></script>
 	<th:block layout:fragment="myscript"></th:block>
 </body>
+
 </html>

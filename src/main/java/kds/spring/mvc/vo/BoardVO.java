@@ -48,8 +48,12 @@ public class BoardVO {
 	}
 	@Override
 	public String toString() {
-		return "BoardVO [bno=" + bno + ", title=" + title + ", userid=" + userid + ", regdate=" + regdate + ", views="
-				+ views + ", contents=" + contents + "]";
+		String write = "BoardVO [bno=%s, title=%s, userid=%s, regdate=%s, views=%s, contents=%s]";
+	      
+	      String result = String.format(write, bno, title, userid, regdate, views, contents);
+	      
+	      
+	      return result;
 	}
 	
 }
