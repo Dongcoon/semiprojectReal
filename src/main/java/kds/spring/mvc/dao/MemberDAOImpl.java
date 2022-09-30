@@ -63,25 +63,20 @@ public class MemberDAOImpl implements MemberDAO{
 		String sql = "select userid,name,email,regdate from member"
 				+ " where mno = 1";
 		
-		RowMapper<MemberVO> memberMapper = new MemberRowMapper();
+		// 람다식 수정
+		RowMapper<MemberVO> memberMapper = (rs, num) -> {
+			MemberVO m = new MemberVO();
+			
+			m.setUserid(rs.getString("userid"));
+			m.setName(rs.getString("name"));
+			m.setEmail(rs.getString("email"));
+			m.setRegdate(rs.getString("regdate"));
+			return m;
+		};
 		
 		return jdbcTemplete.queryForObject(sql, null, memberMapper);
 	}
-	// 콜백 메서드 정의 : mapRow
-	private class MemberRowMapper implements RowMapper<MemberVO>{
 	
-			@Override
-			public MemberVO mapRow(ResultSet rs, int num) throws SQLException {
-				MemberVO m = new MemberVO();
-				
-				m.setUserid(rs.getString("userid"));
-				m.setName(rs.getString("name"));
-				m.setEmail(rs.getString("email"));
-				m.setRegdate(rs.getString("regdate"));
-				return m;
-			}
-			
-		}
 	
 }
 
