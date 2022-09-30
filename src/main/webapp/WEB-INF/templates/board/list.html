@@ -41,7 +41,7 @@ layout:decorate="~{fragments/layout}">
 			<tbody>
 				<tr th:each="b: ${bdlist}">
 					<td th:text="${b.bno}"></td>
-					<td><a th:text="${b.title}" href="/view?bno="></a></td>
+					<td><a th:text="${b.title}" th:href="@{/view(bno=${b.bno})}"></a></td>
 					<td th:text="${b.userid}"></td>
 					<td th:text="${#strings.substring(b.regdate,0,10)}"></td>
 					<td th:text="${b.views}"></td>
