@@ -1,12 +1,14 @@
 package kds.spring.mvc.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 
 import javax.sql.DataSource;
 
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-//import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,12 +21,12 @@ import kds.spring.mvc.vo.MemberVO;
 @Repository("mdao")
 public class MemberDAOImpl implements MemberDAO{
 
-//	@Autowired
-//	private JdbcTemplate jdbcTemplete;
+	@Autowired
+	private JdbcTemplate jdbcTemplete;
 	private SimpleJdbcInsert simpleInsert;
 	private NamedParameterJdbcTemplate jdbcNamedTemplate;
 	
-	private RowMapper<MemberVO> memberMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);
+//	private RowMapper<MemberVO> memberMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);
 	
 	public MemberDAOImpl(DataSource datasource) {
 		simpleInsert = new SimpleJdbcInsert(datasource)
@@ -61,7 +63,25 @@ public class MemberDAOImpl implements MemberDAO{
 		String sql = "select userid,name,email,regdate from member"
 				+ " where mno = 1";
 		
-		return jdbcNamedTemplate.queryForObject(sql, Collections.emptyMap(), memberMapper);
+		RowMapper<MemberVO> memberMapper = new MemberRowMapper();
+		
+		return jdbcTemplete.queryForObject(sql, null, memberMapper);
 	}
+	// 콜백 메서드 정의 : mapRow
+	private class MemberRowMapper implements RowMapper<MemberVO>{
+	
+			@Override
+			public MemberVO mapRow(ResultSet rs, int num) throws SQLException {
+				MemberVO m = new MemberVO();
+				
+				m.setUserid(rs.getString("userid"));
+				m.setName(rs.getString("name"));
+				m.setEmail(rs.getString("email"));
+				m.setRegdate(rs.getString("regdate"));
+				return m;
+			}
+			
+		}
 	
 }
+
