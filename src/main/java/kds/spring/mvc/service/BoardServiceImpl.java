@@ -25,8 +25,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> readBoard() {
-		return bdao.selectBoard();
+	public List<BoardVO> readBoard(int snum) {
+		return bdao.selectBoard(snum);
 	}
 
 	@Override
