@@ -59,9 +59,11 @@ public class MemberDAOImpl implements MemberDAO{
 
 
 	@Override
-	public MemberVO selectOneMember() {
+	public MemberVO selectOneMember(String uid) {
 		String sql = "select userid,name,email,regdate from member"
-				+ " where mno = 1";
+				+ " where userid = ?";
+		
+		Object[] param = { uid };
 		
 		// 람다식 수정
 		RowMapper<MemberVO> memberMapper = (rs, num) -> {
@@ -74,7 +76,8 @@ public class MemberDAOImpl implements MemberDAO{
 			return m;
 		};
 		
-		return jdbcTemplete.queryForObject(sql, null, memberMapper);
+		return jdbcTemplete
+				.queryForObject(sql, param, memberMapper);
 	}
 
 
