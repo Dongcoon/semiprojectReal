@@ -27,7 +27,12 @@ layout:decorate="~{fragments/layout}">
 			<thead>
 				<tr>
 					<td colspan="5" class="newbtn">
-					<button type="button" id="newbtn" >새글쓰기</button>
+					
+					<!--1. <button th:unless="${session.isEmpty()}" type="button" id="newbtn" >새글쓰기</button> -->
+					<!--2.  <button th:if="${not #strings.isEmpty(session.m)}" type="button" id="newbtn" >새글쓰기</button> -->
+					<!--3.  <button th:if="${session.m != null}" type="button" id="newbtn" >새글쓰기</button>-->
+					<!--4.  --><button th:disabled="${session.m == null}" type="button" id="newbtn" >새글쓰기</button>
+					
 					</td>
 				</tr>
 				<tr>
