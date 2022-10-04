@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import kds.spring.mvc.service.BoardService;
 import kds.spring.mvc.vo.BoardVO;
@@ -58,9 +59,12 @@ public class BoardController {
 		return "board/list";
 	}
 	
+	//ModelAndView 클래스 이용
 	@GetMapping("/view")
-	public String view() {
-		return "board/view";
+	public ModelAndView view(ModelAndView mv,String bno) {
+		mv.setViewName("board/view");
+		mv.addObject("bd",bsrv.readOneBoard(bno));
+		return mv;
 	}
 	
 

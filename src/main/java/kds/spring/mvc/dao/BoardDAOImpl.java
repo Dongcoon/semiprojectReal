@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +22,8 @@ import kds.spring.mvc.vo.BoardVO;
 @Repository("bdao")
 public class BoardDAOImpl implements BoardDAO{
 	
-//	private JdbcTemplate jdbcTemplete;
+	@Autowired
+	private JdbcTemplate jdbcTemplete;
 	private SimpleJdbcInsert simpleInsert;
 	private NamedParameterJdbcTemplate jdbcNamedTemplate;
 	
@@ -63,5 +66,27 @@ public class BoardDAOImpl implements BoardDAO{
 				+ " order by bno desc ";
 		
 		return jdbcNamedTemplate.query(sql, Collections.emptyMap(),boardMapper);
+	}
+
+
+	@Override
+	public BoardVO selectOneBoard(String bno) {
+		String sql = "select title, userid, regdate, views, contents from board "
+				+ " where bno = ? ";
+		Object[] param = { bno };
+		
+		//없어도됨
+//		RowMapper<BoardVO> boardMapper = (rs, num) -> {
+//			BoardVO b = new BoardVO();
+//			
+//			b.setTitle(rs.getString("title"));
+//			b.setUserid(rs.getString("userid"));
+//			b.setRegdate(rs.getString("regdate"));
+//			b.setViews(rs.getString("views"));
+//			b.setContents(rs.getString("contents"));
+//			return b;
+//		};
+		return jdbcTemplete
+				.queryForObject(sql, param, boardMapper);
 	}
 }

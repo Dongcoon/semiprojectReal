@@ -5,8 +5,61 @@ layout:decorate="~{fragments/layout}">
 	<th:block layout:fragment="mystyle"></th:block>
 	
 	<th:block layout:fragment="main">
-	<div id="main"></div>
-	<h1>게시판 본문</h1>
+		<div id="main">
+		<h1>게시판 본문</h1>
+			<div>
+				<div>	
+					<label for="tlt">제목</label>
+					<span th:text="${bd.title}"></span>
+				</div>
+				<div>
+					<label for="uid">아이디</label>
+					<span th:text="${bd.userid}"></span>
+				</div>
+				<div>
+					<label for="cts" class="dragup">내용</label>
+					<span th:text="${bd.contents}" id="cnts"></span>
+				</div>
+				<div>
+					<label for="rgd" class="dragup">날짜</label>
+					<span th:text="${bd.regdate}"></span>
+				</div>
+				<div>
+					<label for="vis" class="dragup">조회수</label>
+					<span th:text="${bd.views}"></span>
+				</div>
+				<div>
+					<button type="button" id="go2list">목록</button>
+					<button type="button" id="go2upd">수정</button>
+					<button type="button" id="go2del">삭제</button>
+				</div>
+			</div>
+		</div>
 	</th:block>
-	
-	<th:block layout:fragment="myscript"></th:block>
+		
+	<th:block layout:fragment="myscript">
+		<script>
+			let go2list = document.getElementById('go2list');
+			let go2upd = document.getElementById('go2upd');
+			let go2del = document.getElementById('go2del');
+			let cnts = document.querySelector('#cnts');
+			
+			go2list.addEventListener('click', go2lists);
+			go2upd.addEventListener('click', go2upds);
+			go2del.addEventListener('click', go2dels);
+			
+			function go2lists(){ location.href= '/list'; }
+			function go2upds(){ 
+				if (confirm('정말 삭제하시겠습니까?')) {
+					location.href='/del?bno=[[${param.bno}]]';
+				};
+			}
+			function go2dels(){
+				if (confirm('정말 삭제하시겠습니까?')) {
+					location.href='/del?bno=[[${param.bno}]]';
+				};
+			}
+			
+			cnts.setAttribute('style','white-space: pre;');
+		</script>
+	</th:block>
