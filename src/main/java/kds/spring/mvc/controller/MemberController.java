@@ -1,5 +1,7 @@
 package kds.spring.mvc.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +40,32 @@ public class MemberController {
 			return "redirect:/login";
 		}
 		
-		@GetMapping("/login")
+		@GetMapping("/login")	//로그인 처리
 		public String login() {
-			return "join/login";
+			
+			String returnPage = "join/login";
+			
+
+			return returnPage;
 		}
 		@PostMapping("/login")
-		public String loginok() {
+		public String loginok(MemberVO mvo, HttpSession sess) {
 			
-			return "redirect:/myinfo";
+			String returnPage = "join/lgnfail";
+			
+			if(msrv.checkLogin(mvo)) {
+				sess.setAttribute("m", mvo); //회원정보를 세션에 저장
+				returnPage = "redirect:/myinfo";
+			}
+			return returnPage;
+		}
+		
+		@GetMapping("/logout")
+		public String logout(HttpSession sess) {
+			
+			sess.invalidate(); //모든 세션 제거
+			
+			return "redirect:/login";
 		}
 		
 		@GetMapping("/myinfo")

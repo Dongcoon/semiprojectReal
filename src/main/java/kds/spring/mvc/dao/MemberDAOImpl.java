@@ -76,6 +76,17 @@ public class MemberDAOImpl implements MemberDAO{
 		
 		return jdbcTemplete.queryForObject(sql, null, memberMapper);
 	}
+
+
+	@Override	// 회원수 체크
+	public int selectOneMember(MemberVO mvo) {
+		String sql = "select count(mno) cnt from member where userid = ? and passwd = ?";
+		
+		Object[] params = { mvo.getUserid(), mvo.getPasswd()};
+		
+		return jdbcTemplete
+				.queryForObject(sql,params,Integer.class);
+	}
 	
 	
 }

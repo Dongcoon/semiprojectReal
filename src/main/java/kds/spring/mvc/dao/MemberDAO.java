@@ -8,6 +8,8 @@ public interface MemberDAO {
 
 	MemberVO selectOneMember();
 
+	int selectOneMember(MemberVO mvo);
+
 	
 
 }
