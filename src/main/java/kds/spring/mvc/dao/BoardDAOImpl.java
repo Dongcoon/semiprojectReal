@@ -71,21 +71,17 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public BoardVO selectOneBoard(String bno) {
-		String sql = "select title, userid, regdate, views, contents from board "
+		
+		// 본문글에 대한 조회수 증가시키기
+		String sql = " update board set views = views +1 "
 				+ " where bno = ? ";
 		Object[] param = { bno };
+		jdbcTemplete.update(sql,param);
 		
-		//없어도됨
-//		RowMapper<BoardVO> boardMapper = (rs, num) -> {
-//			BoardVO b = new BoardVO();
-//			
-//			b.setTitle(rs.getString("title"));
-//			b.setUserid(rs.getString("userid"));
-//			b.setRegdate(rs.getString("regdate"));
-//			b.setViews(rs.getString("views"));
-//			b.setContents(rs.getString("contents"));
-//			return b;
-//		};
+		// 본문글 가져오기
+		sql = "select title, userid, regdate, views, contents from board "
+				+ " where bno = ? ";
+		
 		return jdbcTemplete
 				.queryForObject(sql, param, boardMapper);
 	}
