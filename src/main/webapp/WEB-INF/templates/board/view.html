@@ -2,12 +2,20 @@
 xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{fragments/layout}">
 
-	<th:block layout:fragment="mystyle"></th:block>
+	<th:block layout:fragment="mystyle">
+		<style>
+			#view { border: 1px solid blue; width:60%; margin: 65px auto;}
+			#view div { margin-top: 10px }
+			#view label { display: inline-block; width:120px; text-align: right; font-weight: bold; margin-right: 15px;}
+			#cnts { display: inline-block; width: 350px; height: 450px; /* border: 1px solid green; */ }
+			.dragup { vertical-align: top}
+		</style>
+	</th:block>
 	
 	<th:block layout:fragment="main">
 		<div id="main">
 		<h1>게시판 본문</h1>
-			<div>
+			<div id="view">
 				<div>	
 					<label for="tlt">제목</label>
 					<span th:text="${bd.title}"></span>
@@ -15,10 +23,6 @@ layout:decorate="~{fragments/layout}">
 				<div>
 					<label for="uid">아이디</label>
 					<span th:text="${bd.userid}"></span>
-				</div>
-				<div>
-					<label for="cts" class="dragup">내용</label>
-					<span th:text="${bd.contents}" id="cnts"></span>
 				</div>
 				<div>
 					<label for="rgd" class="dragup">날짜</label>
@@ -29,6 +33,11 @@ layout:decorate="~{fragments/layout}">
 					<span th:text="${bd.views}"></span>
 				</div>
 				<div>
+					<label for="cts" class="dragup">내용</label>
+					<span th:text="${bd.contents}" id="cnts"></span>
+				</div>
+				<div>
+					<label></label>
 					<button type="button" id="go2list">목록</button>
 					<button type="button" id="go2upd">수정</button>
 					<button type="button" id="go2del">삭제</button>
