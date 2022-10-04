@@ -1,5 +1,7 @@
 package kds.spring.mvc.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,21 @@ public class BoardController {
 	// 로그 유형 : trace, debug, info, warn, error
 	protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 	
+	// 로그인 안했다면 -> redirect:/login
+	// 로그인 했다면 -> board/write
 	@GetMapping("/write")
-	public String write() {
-		LOGGER.info("글쓰기 호출!");
+	public String write(HttpSession sess) {
+		String returnPage = "board/write";
 		
-		return "board/write";
+		
+		if(sess.getAttribute("m") == null) {
+			
+			returnPage = "redirect:/login";
+		}
+		
+		return returnPage;
 	}
+	
 	@PostMapping("/write")
 	public String writeok(BoardVO bvo) {
 		
