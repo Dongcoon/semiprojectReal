@@ -6,7 +6,7 @@
 			<li><a href="/">Home</a></li>
 			<li><a href="/join">회원가입</a></li>
 			
-			<!-- 로그인세션 처리 -->
+			<!-- 로그인세션 처리1 -->
 			<li th:if="${session.isEmpty()}"><a href="/login">로그인</a></li>
 			<li th:unless="${session.isEmpty()}"><a href="/logout">로그아웃</a></li>
 			
