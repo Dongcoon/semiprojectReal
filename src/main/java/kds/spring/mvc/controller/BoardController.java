@@ -88,7 +88,7 @@ public class BoardController {
 		m.addAttribute("pages",bsrv.readCountBoard(fkey,fval));
 		m.addAttribute("bdlist",bsrv.readBoard(fkey,fval,snum));
 		m.addAttribute("stpgn",stpgn);	
-		m.addAttribute("fqry","&fkey=" + fkey + "$fval=" + fval);
+		m.addAttribute("fqry","&fkey=" + fkey + "&fval=" + fval);
 //		m.addAttribute("cpg",Integer.parseInt(cpg));
 		
 		return "board/list";
