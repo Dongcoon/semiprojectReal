@@ -102,5 +102,20 @@ public class BoardController {
 		return mv;
 	}
 	
+	@GetMapping("/del")
+	public String delete(HttpSession sess, String bno) {
+		String returnPage = "redirect:/list?cpg=1";
+		
+		if(sess.getAttribute("m") == null) {
+			returnPage = "redirect:/login";
+		}
+		else bsrv.delB(bno);
+		
+			LOGGER.info("글삭제 성공");
+		
+		
+		return returnPage;
+	}
+	
 
 }

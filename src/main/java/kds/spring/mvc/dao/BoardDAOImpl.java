@@ -20,7 +20,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import kds.spring.mvc.vo.BoardVO;
-import kds.spring.mvc.vo.MemberVO;
 
 @Repository("bdao")
 public class BoardDAOImpl implements BoardDAO{
@@ -31,7 +30,6 @@ public class BoardDAOImpl implements BoardDAO{
 	private NamedParameterJdbcTemplate jdbcNamedTemplate;
 	
 	private RowMapper<BoardVO> boardMapper = BeanPropertyRowMapper.newInstance(BoardVO.class);
-	private RowMapper<Integer> countMapper = BeanPropertyRowMapper.newInstance(Integer.class);
 	
 	public BoardDAOImpl(DataSource datasource) {
 		simpleInsert = new SimpleJdbcInsert(datasource)
@@ -127,5 +125,16 @@ public class BoardDAOImpl implements BoardDAO{
 				
 		return jdbcNamedTemplate
 				.queryForObject(sql.toString(),params,Integer.class);
+	}
+
+
+	@Override
+	public int deleteBoard(String bno) {
+		String sql = " delete from board where bno = ? ";
+		
+		Object[] param = new Object[]{ bno }; 
+		
+				
+		return jdbcTemplate.update(sql,param);
 	}
 }
