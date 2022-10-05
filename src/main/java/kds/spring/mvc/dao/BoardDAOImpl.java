@@ -119,7 +119,7 @@ public class BoardDAOImpl implements BoardDAO{
 		else if(fkey.equals("userid")) sql.append("where userid like :fval ");
 		else if(fkey.equals("contents")) sql.append("where contents like :fval ");
 		
-//		Object[] param = { ("%"+fval+"%") };
+//		Object[] param = { ("%"+fval+"%") }; >> ? 사용시
 		
 		Map<String, Object> params = new HashMap<>();
 		params.put("fval", "%"+fval+"%");
