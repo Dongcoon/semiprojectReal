@@ -32,6 +32,18 @@ public class BoardController {
 	   3 page : 51번째 ~ 75번째 게시글 읽어옴 
 	   i page : m번째 ~ n 번째 게시글 읽어옴
 	   m = (i - 1) * 25 + 1  */
+	
+	/* 현재 페이지에 따라서 보여줄 페이지 블럭 결정 
+		ex) 총 페이지수가 27일때
+		cpg = 1 : 1 2 3 4 5 6 7 8 9 10
+		cpg = 5 : 1 2 3 4 5 6 7 8 9 10
+		cpg = 9 : 1 2 3 4 5 6 7 8 9 10
+		cpg = 11 : 11 12 13 14 15 16 17 18 19 20
+		cpg = 17 : 11 12 13 14 15 16 17 18 19 20
+		cpg = 23 : 21 22 23 24 25 26 27 
+		cpg = n : ? ?+1... ?+9
+		stpgn = ((cpg -1) / 10) * 10 + 1 
+	*/
 
 	// 로그 유형 : trace, debug, info, warn, error
 	protected Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -57,19 +69,25 @@ public class BoardController {
 		LOGGER.info("작성된 글! {}", bvo);
 		
 		// 게시물 저장
-		if(bsrv.newBoard(bvo))
+		if(bsrv.newBoard(bvo))	
 			LOGGER.info("글작성 성공");
 		
-		return "redirect:/list";
+		return "redirect:/list?cpg=1";
 	}
 	
 	@GetMapping("/list")
 	public String list(Model m, String cpg) {
 		
 		int perPage = 25;
-		int snum = ( Integer.parseInt(cpg) - 1 ) * perPage;
+		if(cpg == null || cpg.equals("")) cpg = "1";
+		int cpage = Integer.parseInt(cpg);
+		int snum = (cpage - 1) * perPage;
+		int stpgn = ((cpage -1) / 10) * 10 + 1;
 		
+		m.addAttribute("pages",bsrv.readCountBoard());
 		m.addAttribute("bdlist",bsrv.readBoard(snum));
+		m.addAttribute("stpgn",stpgn);
+//		m.addAttribute("cpg",Integer.parseInt(cpg));
 		
 		return "board/list";
 	}

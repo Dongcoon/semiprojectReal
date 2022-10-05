@@ -7,6 +7,8 @@ public class BoardVO {
 	private String regdate;
 	private String views;
 	private String contents;
+	
+	
 	public BoardVO() {
 		super();
 	}

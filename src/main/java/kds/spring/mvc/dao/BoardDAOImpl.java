@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import kds.spring.mvc.vo.BoardVO;
+import kds.spring.mvc.vo.MemberVO;
 
 @Repository("bdao")
 public class BoardDAOImpl implements BoardDAO{
@@ -89,5 +90,16 @@ public class BoardDAOImpl implements BoardDAO{
 		
 		return jdbcTemplete
 				.queryForObject(sql, param, boardMapper);
+	}
+
+
+	@Override
+	public int selectCountBoard() {
+		String sql = " select CEIL(count(bno)/25) cnt "
+				+ "from board ";
+		
+				
+		return jdbcTemplete
+				.queryForObject(sql,null,Integer.class);
 	}
 }
