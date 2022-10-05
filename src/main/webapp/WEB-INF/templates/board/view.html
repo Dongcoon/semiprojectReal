@@ -39,8 +39,10 @@ layout:decorate="~{fragments/layout}">
 				<div>
 					<label></label>
 					<button type="button" id="go2list">목록</button>
+					<th:block th:if="${not session.isEmpty() and session.m.userid == bd.userid}">
 					<button type="button" id="go2upd">수정</button>
 					<button type="button" id="go2del">삭제</button>
+					</th:block>
 				</div>
 			</div>
 		</div>
@@ -54,8 +56,8 @@ layout:decorate="~{fragments/layout}">
 			let cnts = document.querySelector('#cnts');
 			
 			go2list.addEventListener('click', go2lists);
-			go2upd.addEventListener('click', go2upds);
-			go2del.addEventListener('click', go2dels);
+			go2upd?.addEventListener('click', go2upds);
+			go2del?.addEventListener('click', go2dels);
 			
 			function go2lists(){ location.href= '/list'; }
 			function go2upds(){ 
