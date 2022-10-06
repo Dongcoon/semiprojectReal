@@ -9,11 +9,11 @@ public class Zipcode {
 	private String bunji;
 	private String seq;
 	
-	public String getZimpcode() {
+	public String getZipcode() {
 		return zipcode;
 	}
-	public void setZimpcode(String zimpcode) {
-		this.zipcode = zimpcode;
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
 	}
 	public String getSido() {
 		return sido;
@@ -53,7 +53,7 @@ public class Zipcode {
 	}
 	@Override
 	public String toString() {
-		return "Zipcode [zimpcode=" + zipcode + ", sido=" + sido + ", gugun=" + gugun + ", dong=" + dong + ", ri=" + ri
+		return "Zipcode [zipcode=" + zipcode + ", sido=" + sido + ", gugun=" + gugun + ", dong=" + dong + ", ri=" + ri
 				+ ", bunji=" + bunji + ", seq=" + seq + "]";
 	}
 	
