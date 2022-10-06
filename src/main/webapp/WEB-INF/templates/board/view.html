@@ -26,7 +26,7 @@ layout:decorate="~{fragments/layout}">
 				</div>
 				<div>
 					<label for="rgd" class="dragup">날짜</label>
-					<span th:text="${bd.regdate}"></span>
+					<span th:text="${#strings.substring(bd.regdate,0,10)}"></span>
 				</div>
 				<div>
 					<label for="vis" class="dragup">조회수</label>
@@ -51,25 +51,27 @@ layout:decorate="~{fragments/layout}">
 	<th:block layout:fragment="myscript">
 		<script>
 			let go2list = document.getElementById('go2list');
-			let go2upd = document.getElementById('go2upd');
-			let go2del = document.getElementById('go2del');
-			let cnts = document.querySelector('#cnts');
-			
 			go2list.addEventListener('click', go2lists);
-			go2upd?.addEventListener('click', go2upds);
-			go2del?.addEventListener('click', go2dels);
-			
 			function go2lists(){ location.href= '/list'; }
+			
+			let go2upd = document.getElementById('go2upd');
+			go2upd?.addEventListener('click', go2upds);
 			function go2upds(){ 
 				if (confirm('정말 수정하시겠습니까?')) {
-					location.href='/del?bno=[[${param.bno}]]';
+					location.href='/upd?bno=[[${param.bno}]]';
 				};
 			}
+			
+			let go2del = document.getElementById('go2del');
+			go2del?.addEventListener('click', go2dels);
 			function go2dels(){
 				if (confirm('정말 삭제하시겠습니까?')) {
 					location.href='/del?bno=[[${param.bno}]]';
 				};
 			}
+			
+			
+			let cnts = document.querySelector('#cnts');
 			
 			cnts.setAttribute('style','white-space: pre;');
 		</script>

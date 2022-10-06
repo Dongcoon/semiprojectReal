@@ -16,5 +16,7 @@ public interface BoardService {
 
 	boolean delB(String bno);
 
+	boolean modifyBoard(BoardVO bvo);
+
 
 }

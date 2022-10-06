@@ -1,0 +1,58 @@
+<html xmlns:th="http://wwww.thymeleaf.org"
+xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{fragments/layout}">
+
+<th:block layout:fragment="mystyle">
+	<style>
+		/* 수정하기에 대한 스타일 */
+		#boardfrm { border: 1px solid blue; width: 500px; margin: 0 auto; }
+		#boardfrm div { margin-bottom: 10px }
+		#boardfrm label { width: 110px; display: inline-block; text-align: right; font-weight:bold }
+		#boardfrm button:first-child { margin-left: 115px }
+		input:hover, textarea:hover { background: mintcream;}
+		.dragup { vertical-align: top}
+		
+	</style>
+</th:block>
+	
+	<th:block layout:fragment="main">
+	<div id="main">
+		<h1>게시판 수정하기</h1>
+		<form name="boardfrm" id="boardfrm">
+			<div>	
+				<label for="tlt">제목</label>
+				<input type="text" name="title" id="tlt" th:value="${bd.title}">
+			</div>
+			<div>
+				<label for="uid">아이디</label>
+				<input type="text" name="userid" id="uid" th:value="${session.m.userid}" readonly="readonly">
+			</div>
+			<div>
+				<label for="cts" class="dragup">내용</label>
+				<textarea cols="45" rows="7"  name="contents" id="cts" th:text="${bd.contents}"></textarea>
+			</div>
+			<div>
+				<button type="button" id="bdokbtn">수정완료</button>
+				<button type="reset">다시입력</button>
+			</div>
+		</form>
+	</div>
+	</th:block>
+	
+	<th:block layout:fragment="myscript">
+	<script>
+		let bdokbtn = document.getElementById("bdokbtn");
+		bdokbtn.addEventListener('click',checkboardfrm);
+		
+		function checkboardfrm(){
+			let frm = document.boardfrm;
+			if (frm.title.value == '') alert('제목을 작성하세요!');
+			else if (frm.title.value == '') alert('본문을 작성하세요!');
+			else {
+				frm.method = 'post';
+				frm.submit();
+			}
+		}
+	</script>
+	</th:block>
+	

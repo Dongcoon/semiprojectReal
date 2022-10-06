@@ -137,4 +137,16 @@ public class BoardDAOImpl implements BoardDAO{
 				
 		return jdbcTemplate.update(sql,param);
 	}
+
+
+	@Override
+	public int modifyBoard(BoardVO bvo) {
+		//제목, 본문, 수정한 날짜/시간을 수정함
+		String sql = " update board set title = ?, contents = ?, regdate = now() where bno = ? ";
+		
+		Object[] params = new Object[]{ bvo.getTitle(), bvo.getContents(), bvo.getBno() }; 
+		
+				
+		return jdbcTemplate.update(sql,params);
+	}
 }
