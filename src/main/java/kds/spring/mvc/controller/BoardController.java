@@ -1,7 +1,10 @@
 package kds.spring.mvc.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +13,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kds.spring.mvc.service.BoardService;
+import kds.spring.mvc.utils.RecaptchaUtils;
 import kds.spring.mvc.vo.BoardVO;
 
 @Controller
 public class BoardController {
 	
-	@Autowired // >> 버전에 따라 Spring container가 @Service("bsrv")에 의해 자동생성하긴하지만 가독성 떨어지는단점.
- 	private BoardService bsrv;
+//	@Autowired  >> 버전에 따라 Spring container가 @Service("bsrv")에 의해 자동생성하긴하지만 가독성 떨어지는단점.
+// 	private BoardService bsrv;
 	
+	//DI받을 변수가 둘 이상이므로 생성자로 DI받도록 재정의
+ 	private BoardService bsrv;
+	private RecaptchaUtils grcp;
+	
+	@Autowired
+	public BoardController(BoardService bsrv, RecaptchaUtils grcp) {
+		this.bsrv = bsrv;
+		this.grcp = grcp;
+	}
+
 	/* 페이징 처리
 	   페이지당 게시물 수perPage : 25 
 	   총페이지수 : 전체게시물 수 / 페이지당 게시물 수 
@@ -62,17 +77,33 @@ public class BoardController {
 		
 		return returnPage;
 	}
-	
+	/* captcha 작동원리
+	   captcha 사용시 클라이언트가 생성한 키와
+	   서버에 설정해 둔 (비밀)키등을
+	   google의 siteverify에서 비교해서
+	   인증에 성공하면 list로 redirect하고,
+	   그렇지 않으면, 다시 write로 return함
+	   ?secret=비밀키&response=클라이언트응답키
+		*/
 	@PostMapping("/write")
-	public String writeok(BoardVO bvo) {
+	public String writeok(BoardVO bvo, String gcaptcha, RedirectAttributes rda) throws ParseException, IOException {
+		String returnPage = "redirect:/write";
 		
-		LOGGER.info("작성된 글! {}", bvo);
+//		LOGGER.info(gcaptcha);
 		
 		// 게시물 저장
-		if(bsrv.newBoard(bvo))	
-			LOGGER.info("글작성 성공");
+		if(grcp.checkCaptcha(gcaptcha)) {
+			
+			bsrv.newBoard(bvo);			
+			returnPage = "redirect:/list?cpg=1";
+//			LOGGER.info("글작성 성공");
+		} else {
+			//일회용 session객체 이용.
+			rda.addFlashAttribute("bvo",bvo);
+			rda.addFlashAttribute("msg","자동가입방지 확인이 실패했어요!");
+		}
 		
-		return "redirect:/list?cpg=1";
+		return returnPage;
 	}
 	
 	@GetMapping("/list")

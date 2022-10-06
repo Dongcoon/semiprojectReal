@@ -11,8 +11,11 @@ layout:decorate="~{fragments/layout}">
 		#boardfrm button:first-child { margin-left: 115px }
 		input:hover, textarea:hover { background: mintcream;}
 		.dragup { vertical-align: top}
+		.pushright { margin-left: 110px}
+		.danger { color: red; font-weight: bold;}
 		
 	</style>
+	<script src="https://www.google.com/recaptcha/api.js" asnyc defer></script>
 </th:block>
 	
 	<th:block layout:fragment="main">
@@ -21,7 +24,7 @@ layout:decorate="~{fragments/layout}">
 		<form name="boardfrm" id="boardfrm">
 			<div>	
 				<label for="tlt">제목</label>
-				<input type="text" name="title" id="tlt">
+				<input type="text" name="title" id="tlt" th:value = "${(bvo == null)} ? '' : ${bvo.title}">
 			</div>
 			<div>
 				<label for="uid">아이디</label>
@@ -29,9 +32,12 @@ layout:decorate="~{fragments/layout}">
 			</div>
 			<div>
 				<label for="cts" class="dragup">내용</label>
-				<textarea cols="45" rows="7"  name="contents" id="cts"></textarea>
+				<textarea cols="45" rows="7"  name="contents" id="cts" th:text = "${(bvo == null)}? '' : ${bvo.contents}"></textarea>
 			</div>
+			<div class="g-recaptcha pushright" data-sitekey="6Lc581oiAAAAALRexBTjA0dEgTDscPdC_rvbycRN"></div>
+			<div class="pushright danger" th:text="${msg}"></div>
 			<div>
+			<input type="hidden" name = "gcaptcha">
 				<button type="button" id="bdokbtn">입력완료</button>
 				<button type="reset">다시입력</button>
 			</div>
@@ -48,7 +54,9 @@ layout:decorate="~{fragments/layout}">
 			let frm = document.boardfrm;
 			if (frm.title.value == '') alert('제목을 작성하세요!');
 			else if (frm.title.value == '') alert('본문을 작성하세요!');
+			else if (grecaptcha.getResponse() == '') alert('자동가입방지를 작성하세요!');
 			else {
+				frm.gcaptcha.value = grecaptcha.getResponse();
 				frm.method = 'post';
 				frm.submit();
 			}
