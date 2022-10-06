@@ -10,6 +10,8 @@ public interface MemberDAO {
 
 	int selectOneMember(MemberVO mvo);
 
+	int selectCountUserid(String uid);
+
 	
 
 }

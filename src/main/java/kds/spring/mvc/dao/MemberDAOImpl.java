@@ -90,6 +90,17 @@ public class MemberDAOImpl implements MemberDAO{
 		return jdbcTemplete
 				.queryForObject(sql,params,Integer.class);
 	}
+
+
+	@Override
+	public int selectCountUserid(String uid) {
+		String sql = "select count(mno) cnt from member "
+				+ " where userid = ?";
+		
+		Object[] param = new Object[] { uid };
+		
+		return jdbcTemplete.queryForObject(sql, param, Integer.class);
+	}
 	
 	
 }
