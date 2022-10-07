@@ -1,0 +1,64 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="board">
+	
+	<insert id="insertBoard" statementType="PREPARED"
+		parameterType="kds.spring.mvc.vo.BoardVO">
+		insert into board(title,userid, contents) 
+		values(#{title},#{userid},#{contents})
+	</insert>
+	
+	<update id="viewboard" statementType="PREPARED"
+			parameterType="String">
+			update board 
+			set views = views +1 
+			where bno = #{bno}
+	</update>
+	
+	<select id="selectOneBoard" statementType="PREPARED"
+			parameterType="String"
+			resultType="kds.spring.mvc.vo.BoardVO">
+			select *
+			from board
+			where bno = #{bno}
+	</select>
+	
+	<select id="selectBoard" statementType="PREPARED"
+			parameterType="map"
+			resultType="kds.spring.mvc.vo.BoardVO">
+			
+			select bno, title, userid, regdate, views 
+			from board
+			<if test="fkey == 'title'">where title like #{fval} </if>
+			<if test="fkey == 'userid'">where userid like #{fval} </if>
+			<if test="fkey == 'contents'">where contents like #{fval} </if>
+			order by bno desc limit #{snum},25
+	</select> 
+	
+	
+	<select id="selectCountBoard" statementType="PREPARED"
+			parameterType="map" 
+			resultType="int">
+			
+			select ceil(count(bno)/25) pages
+			from board
+			<if test="fkey == 'title'">where title like #{fval} </if>
+			<if test="fkey == 'userid'">where userid like #{fval} </if>
+			<if test="fkey == 'contents'">where contents like #{fval} </if>
+	</select> 
+	
+	<delete id="deleteBoard" statementType="PREPARED"
+			parameterType="String">
+			delete 
+			from board 
+			where bno = #{bno}
+	</delete>
+	<update id="modifyBoard" statementType="PREPARED"
+			parameterType="kds.spring.mvc.vo.BoardVO">
+			update board 
+			set title = #{title}, contents = #{contents}, regdate = now() where bno = #{bno}
+	</update>
+
+</mapper>
