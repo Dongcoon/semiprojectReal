@@ -31,9 +31,7 @@
 			
 			select bno, title, userid, regdate, views 
 			from board
-			<if test="fkey == 'title'">where title like #{fval} </if>
-			<if test="fkey == 'userid'">where userid like #{fval} </if>
-			<if test="fkey == 'contents'">where contents like #{fval} </if>
+			<if test="fkey != ''"> where ${fkey} like #{fval} </if>
 			order by bno desc limit #{snum},25
 	</select> 
 	
@@ -44,9 +42,8 @@
 			
 			select ceil(count(bno)/25) pages
 			from board
-			<if test="fkey == 'title'">where title like #{fval} </if>
-			<if test="fkey == 'userid'">where userid like #{fval} </if>
-			<if test="fkey == 'contents'">where contents like #{fval} </if>
+			where #{fkey} like #{fval}
+			
 	</select> 
 	
 	<delete id="deleteBoard" statementType="PREPARED"
