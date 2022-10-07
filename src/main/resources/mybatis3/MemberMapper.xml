@@ -1,0 +1,41 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="member">
+	
+	<insert id="insertMember" statementType="PREPARED"
+		parameterType="kds.spring.mvc.vo.MemberVO">
+		insert into member(userid,passwd, name, email) 
+		values(#{userid},#{passwd},#{name},#{email})
+	</insert>
+	<select id="selectOneMember" statementType="PREPARED"
+			parameterType="String"
+			resultType="kds.spring.mvc.vo.MemberVO">
+			select userid,name,email,regdate 
+			from member
+			where userid = #{userid}
+	</select>
+	<select id="selectCountMember" statementType="PREPARED"
+			parameterType="kds.spring.mvc.vo.MemberVO"
+			resultType="int">
+			select count(mno) cnt 
+			from member 
+			where userid = #{userid} and passwd = #{passwd}
+	</select>
+	<select id="selectCountUserid" statementType="PREPARED"
+			parameterType="String"
+			resultType="int">
+			select count(mno) cnt 
+			from member 
+			where userid = #{userid}
+	</select>
+	<select id="selectZipcode" statementType="PREPARED"
+			parameterType="String"
+			resultType="kds.spring.mvc.vo.Zipcode">
+			select * 
+			from zipcode_2013 
+			where dong like #{dong}
+	</select>
+
+</mapper>
